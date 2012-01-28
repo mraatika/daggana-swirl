@@ -1,4 +1,4 @@
-package fi.dagganaswirl.models;
+package dagganaswirl.models;
 
 public class GameBoard {
 
