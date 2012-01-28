@@ -3,6 +3,9 @@ package dagganaswirl.models;
 import java.util.Random;
 
 public class Selection {
+    
+        private Random rnd;
+        
 	public static enum ActionType {
 		CCLOCKWISE, CLOCKWISE, MIRROR_HORIZONTALLY, MIRROR_VERTICALLY, MIRROR_BOTH, SHUFFLE
 	}
@@ -110,6 +113,13 @@ public class Selection {
 		this.container[startRow][startCol] = this.container[endRow][endCol];
 		this.container[endRow][endCol] = temp;
 	}
+        
+        private void shuffle() {
+                int [][] temp = this.container;
+                for (int i=0; i< this.rowSize(); i++)
+                    for (int j=0; i<this.rowSize(); j++)
+                        this.container[i][j] =  temp[rnd.nextInt(this.rowSize())][rnd.nextInt(this.rowSize())];
+        }
 
 	public String toString() {
 		String str = "";
