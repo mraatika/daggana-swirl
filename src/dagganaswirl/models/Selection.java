@@ -27,6 +27,10 @@ public class Selection {
 	public int get(int row, int col) {
 		return this.container[row][col];
 	}
+        
+        public int get(Coordinate c) {
+		return this.container[c.x][c.y];
+	}
 
 	/**
 	 *
@@ -34,7 +38,7 @@ public class Selection {
 	 *            action type to be done to selection
 	 * @return List<Integer> Selection New selection
 	 */
-	public Selection doAction(ActionType type) {
+	public Selection doAction(ActionType type) { //tämähän voi palauttaa voidin koska operaatiot tehdään thissille?
 
 		switch (type) {
 		case CCLOCKWISE:
@@ -54,7 +58,7 @@ public class Selection {
 			this.mirrorVertically();
 			return this;
 		case SHUFFLE:
-			// this.shuffle();
+			this.shuffle();
 			return this;
 		default:
 			throw new IllegalArgumentException("Invalid action type!");
@@ -115,12 +119,12 @@ public class Selection {
 	}
         
         private void shuffle() {
-                int [][] temp = this.container;
                 for (int i=0; i< this.rowSize(); i++)
                     for (int j=0; i<this.rowSize(); j++)
-                        this.container[i][j] =  temp[rnd.nextInt(this.rowSize())][rnd.nextInt(this.rowSize())];
+                        swap(i, rnd.nextInt(rowSize()), j, rnd.nextInt(rowSize()));
         }
 
+        @Override
 	public String toString() {
 		String str = "";
 
