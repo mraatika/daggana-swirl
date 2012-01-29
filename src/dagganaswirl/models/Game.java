@@ -6,7 +6,6 @@ package dagganaswirl.models;
 
 import dagganaswirl.models.GameBoard.Size;
 import java.util.Observable;
-import java.util.Observer;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -31,11 +30,11 @@ public class Game {
     
     private static Difficulty difficulty;
     private Gamemode mode;
-    private GameBoard board;
+    private GameBoard board = null;
     private GameBoard.Size boardSize;
     private static Game game = null;
     private ScoreCounter scounter;
-    private GameClock gameClock;
+    private GameClock gameClock = null;
     private int moves = 0;
 
     private Game(Difficulty difficulty, Gamemode mode, Size boardSize) {
@@ -95,7 +94,7 @@ public class Game {
         }
     }
     
-    public void observeClock(Observer obs) {
+    public void observeClock(java.util.Observer obs) {
         gameClock.addObserver(obs);
     }
     
