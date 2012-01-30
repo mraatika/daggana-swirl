@@ -5,12 +5,13 @@
 package dagganaswirl.controllers;
 
 import dagganaswirl.views.GameView;
-import dagganaswirl.models.Game;
+import dagganaswirl.models.*;
 import dagganaswirl.models.GameBoard.Size;
+import dagganaswirl.models.Selection.ActionType;
 import java.util.Observable;
 import java.util.Observer;
 
-public class GameController implements Observer{
+public class GameController {
 	private GameView gameView;
         private Game game = null;
 
@@ -31,7 +32,10 @@ public class GameController implements Observer{
 	public void startGame() {
 		System.out.println("starting new game");
                 game = Game.playGame(Game.Difficulty.EASY, Game.Gamemode.TIMEATTACK, Size.SMALL);
-                game.observeClock(this);
+                game.observeClock(new GameClockObserver());
+                System.out.println(game.getBoard());
+                game.doAction(new Coordinate(0,0), new Coordinate(3,3), ActionType.SHUFFLE);
+                System.out.println(game.getBoard());
 	}
 
 	public void exitGame() {
@@ -40,10 +44,15 @@ public class GameController implements Observer{
 
 	public void showHighScores() {
 		System.out.println("I'm so high, duuuuude!");
-	}
+        }
+        
+        private class GameClockObserver implements Observer {
 
-        @Override
-        public void update(Observable o, Object o1) {
-            System.out.println("Time remaining: " + o1 + " seconds");
+            @Override
+            public void update(Observable o, Object o1) {
+
+                //System.out.println("Rmaining seconds: " + o1);
+            }
+            
         }
 }

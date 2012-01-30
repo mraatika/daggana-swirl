@@ -83,6 +83,10 @@ public class Game {
     public void setMode(Gamemode mode) {
         this.mode = mode;
     }
+
+    public GameBoard getBoard() {
+        return board;
+    }
     
     public static Game playGame(Difficulty difficulty, Gamemode mode, Size boardSize) {
         if (game != null)

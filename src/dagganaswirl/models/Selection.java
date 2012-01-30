@@ -119,8 +119,10 @@ public class Selection {
 	}
         
         private void shuffle() {
-                for (int i=0; i< this.rowSize(); i++)
-                    for (int j=0; i<this.rowSize(); j++)
+                rnd = new Random();
+                int rowsize = rowSize();
+                for (int i=0; i< rowsize; i++)
+                    for (int j=0; j<rowsize; j++)
                         swap(i, rnd.nextInt(rowSize()), j, rnd.nextInt(rowSize()));
         }
 

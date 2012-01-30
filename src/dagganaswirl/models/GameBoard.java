@@ -17,16 +17,16 @@ public class GameBoard {
     
     private Size size;
     private int[][] board;
-    private int rows;
     private Random rnd;
 
     public GameBoard(Size size) {
         this.size = size;
+        rnd = new Random();
         
         board = new int[size.value()][size.value()];
         
-        for (int i=0; i< rows; i++)
-            for (int j=0; i<rows; j++)
+        for (int i=0; i< size.value(); i++)
+            for (int j=0; j<size.value(); j++)
                 board[i][j] = rnd.nextInt(Game.getDifficulty().value());
     }  
 
@@ -48,6 +48,17 @@ public class GameBoard {
     
     public void setPiece(Coordinate c, int value) {
         board[c.x][c.y] = value;
+    }
+    
+    @Override
+    public String toString() {
+        String ret = "";
+        for (int i=0; i<size.value(); i++) {
+            for (int j=0; j<size.value(); j++)
+                ret += board[i][j] + " ";
+            ret += "\n";
+        }
+        return ret;
     }
 
 }
