@@ -38,16 +38,12 @@ public class GameBoard {
         this.size = size;
     }
     
-    public int getPiece(Coordinate c) {
-        return board[c.x][c.y];
-    }
-    
     public int getPiece(int row, int col) {
         return board[row][col];
     }
     
-    public void setPiece(Coordinate c, int value) {
-        board[c.x][c.y] = value;
+    public void setPiece(int row, int col, int value) {
+        board[row][col] = value;
     }
     
     @Override

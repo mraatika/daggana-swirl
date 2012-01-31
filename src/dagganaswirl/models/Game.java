@@ -8,6 +8,7 @@ import dagganaswirl.models.GameBoard.Size;
 import java.util.Observable;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.ArrayList;
 
 /**
  *
@@ -33,7 +34,7 @@ public class Game {
     private GameBoard board = null;
     private GameBoard.Size boardSize;
     private static Game game = null;
-    private ScoreCounter scounter;
+    private ScoreCounter scoreCounter;
     private GameClock gameClock = null;
     private int moves = 0;
 
@@ -45,7 +46,7 @@ public class Game {
 
     private void init() {
         board = new GameBoard(boardSize);      
-        scounter = new ScoreCounter();
+        scoreCounter = new ScoreCounter();
   
         switch (mode) {
             case TIMEATTACK: {
@@ -102,22 +103,120 @@ public class Game {
         gameClock.addObserver(obs);
     }
     
-    public void doAction(Coordinate topLeft, Coordinate bottomRight, Selection.ActionType type) {
-        int[][] selectedPieces = new int[bottomRight.x-topLeft.x][bottomRight.y-topLeft.y];
-        for (int i=0; i<(bottomRight.x-topLeft.x); i++)
-            for (int j=0; j<(bottomRight.y-topLeft.y); j++)
-                selectedPieces[i][j] = board.getPiece(topLeft.x+i,topLeft.y+j);
+    public void observeScoreCounter(java.util.Observer obs) {
+        scoreCounter.addObserver(obs);
+    }
+    
+    public void doAction(int topLeftRow, int topLeftCol, int bottomRightRow, int bottomRightCol, Selection.ActionType type) {
+        int[][] selectedPieces = new int[bottomRightRow-topLeftRow][bottomRightCol-topLeftCol];
+        for (int i=0; i<(selectedPieces.length); i++)
+            for (int j=0; j<(selectedPieces.length); j++)
+                selectedPieces[i][j] = board.getPiece(topLeftRow+i,topLeftCol+j);
         Selection sel = new Selection(selectedPieces);
         sel.doAction(type);
-        for (int i=0; i<(bottomRight.x-topLeft.x); i++)
-            for (int j=0; j<(bottomRight.y-topLeft.y); j++)
-                board.setPiece(new Coordinate(topLeft.x+i,topLeft.y+j), sel.get(topLeft.x+i, topLeft.y+j));
+        for (int i=0; i<(selectedPieces.length); i++)
+            for (int j=0; j<(selectedPieces.length); j++)
+                board.setPiece(topLeftRow+i, topLeftCol+j, sel.get(i, j));
+        scoreCounter.countScore();
         moves++;
     }
-    /**
-     * TODO: Nothing here yet.
-     */
-    private class ScoreCounter {
+    
+    private class ScoreCounter extends Observable {
+
+        private long score = 0;
+        ArrayList<CoordinateList> pieceTypeLists;
+        private int[] debug;
+        private int groupSize;
+        
+        public ScoreCounter() {
+            pieceTypeLists = new ArrayList<CoordinateList>();
+            for (int i=0; i<difficulty.value(); i++)
+                pieceTypeLists.add(new CoordinateList());
+        }
+        
+        public long getScore() {
+            return score;
+        }
+        
+        public void countScore() {
+            
+            for (int i=0; i<boardSize.value(); i++)
+                for (int j=0; j<boardSize.value(); j++)
+                {
+                    int pieceType = board.getPiece(i, j);
+                    pieceTypeLists.get(pieceType).add(new Coordinate(i, j));
+                }
+                    
+            for (CoordinateList l : pieceTypeLists)
+                for (Coordinate c : l)
+                    if (!c.getChecked()) {    
+                        groupSize = 1;
+                        checkCoordinate(c, board.getPiece(c.i, c.j));
+                        if (groupSize > 3)
+                            score += groupSize * groupSize;
+                    }
+                                 
+            setChanged();
+            notifyObservers(score);
+            
+            for (ArrayList<Coordinate> a : pieceTypeLists)
+                a.clear();
+            score = 0;
+        }
+        
+        private void checkCoordinate(Coordinate coord, int pieceType) {
+            
+            coord.setChecked();
+            
+            int leftSideIndex = pieceTypeLists.get(pieceType).contains(coord.i, coord.j-1);
+            if (leftSideIndex != -1 && !pieceTypeLists.get(pieceType).get(leftSideIndex).getChecked()) {
+                groupSize++;
+                checkCoordinate(pieceTypeLists.get(pieceType).get(leftSideIndex), pieceType);
+            }
+            int topSideIndex = pieceTypeLists.get(pieceType).contains(coord.i-1, coord.j);
+            if (topSideIndex != -1 && !pieceTypeLists.get(pieceType).get(topSideIndex).getChecked()) {
+                groupSize++;
+                checkCoordinate(pieceTypeLists.get(pieceType).get(topSideIndex), pieceType);
+            } 
+            int rightSideIndex = pieceTypeLists.get(pieceType).contains(coord.i, coord.j+1);
+            if (rightSideIndex != -1 && !pieceTypeLists.get(pieceType).get(rightSideIndex).getChecked()) {
+                groupSize++;
+                checkCoordinate(pieceTypeLists.get(pieceType).get(rightSideIndex), pieceType);
+            }
+            int bottomSideIndex = pieceTypeLists.get(pieceType).contains(coord.i+1, coord.j);
+            if (bottomSideIndex != -1 && !pieceTypeLists.get(pieceType).get(bottomSideIndex).getChecked()) {
+                groupSize++;
+                checkCoordinate(pieceTypeLists.get(pieceType).get(bottomSideIndex), pieceType);
+            }   
+        }
+        
+        private class Coordinate {
+            
+            public int i,j;
+            private boolean checked = false;
+
+            public Coordinate(int i, int j) {
+                this.i = i;
+                this.j = j;
+            }
+            
+            public synchronized boolean getChecked() {
+                return checked;
+            }
+            public synchronized void setChecked() {
+                checked = true;
+            }
+        }
+        
+        private class CoordinateList extends ArrayList<Coordinate> {
+            
+            public int contains(int i, int j) {
+                for (int k=0; k<this.size(); k++)
+                    if (this.get(k).i == i && this.get(k).j == j)
+                        return k;
+                return -1;
+            }
+        }
         
     }
     

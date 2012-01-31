@@ -33,8 +33,9 @@ public class GameController {
 		System.out.println("starting new game");
                 game = Game.playGame(Game.Difficulty.EASY, Game.Gamemode.TIMEATTACK, Size.SMALL);
                 game.observeClock(new GameClockObserver());
+                game.observeScoreCounter(new ScoreCounterObserver());
                 System.out.println(game.getBoard());
-                game.doAction(new Coordinate(0,0), new Coordinate(3,3), ActionType.SHUFFLE);
+                game.doAction(0,0, 2,2, ActionType.CCLOCKWISE);
                 System.out.println(game.getBoard());
 	}
 
@@ -52,6 +53,16 @@ public class GameController {
             public void update(Observable o, Object o1) {
 
                 //System.out.println("Rmaining seconds: " + o1);
+            }
+            
+        }
+        
+        private class ScoreCounterObserver implements Observer {
+
+            @Override
+            public void update(Observable o, Object o1) {
+
+                System.out.println("Score: " + o1);
             }
             
         }

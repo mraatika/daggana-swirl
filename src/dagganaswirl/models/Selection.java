@@ -27,10 +27,6 @@ public class Selection {
 	public int get(int row, int col) {
 		return this.container[row][col];
 	}
-        
-        public int get(Coordinate c) {
-		return this.container[c.x][c.y];
-	}
 
 	/**
 	 *
