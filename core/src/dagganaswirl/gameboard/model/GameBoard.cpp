@@ -14,30 +14,32 @@ GameBoard::GameBoard()
 
 GameBoard::GameBoard(GameBoard::Size size)
 {
-	this->size = size;
-	this->board = int[size][size];
+	m_size = size;
+	//this->board = int[size][size];
 }
 
-GameBoard::getSize()
+GameBoard::Size GameBoard::getSize()
 {
-	return this->size;
+	return m_size;
 }
 
-GameBoard::setSize(GameBoard::Size size)
+void GameBoard::setSize(GameBoard::Size size)
 {
-	this->size = size;
+	m_size = size;
 }
 
-GameBoard::getPiece(int row, int col)
+int GameBoard::getPiece(int row, int col)
 {
-	return this->board[row][col];
+	// return this->board[row][col];
+	return 1;
 }
 
-GameBoard::setPiece(int row, int col, int value)
+void GameBoard::setPiece(int row, int col, int value)
 {
-	this->board[row][col] = value;
+	//this->board[row][col] = value;
 }
 
+/*
 GameBoard::toString()
 {
 	std::string ret = "";
@@ -49,3 +51,4 @@ GameBoard::toString()
 	}
 	return ret;
 }
+*/
