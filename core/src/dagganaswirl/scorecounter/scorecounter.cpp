@@ -16,87 +16,63 @@ long ScoreCounter::getScore()
 	return m_score;
 }
 
+int ** checked;
+int boardSize;
 
-struct Coordinate
+void checkCoordinate(const int i, const int j, const GameBoard & board, int & groupSize)
 {
-	Coordinate(int i, int j)
-		: m_checked(false)
+	groupSize++;
+	checked[i][j] = 1;
+	const int pieceType = board.getPiece(i, j);
+	
+	if (i > 0 && checked[i-1][j] == 0 && board.getPiece(i-1, j) == pieceType)
 	{
-		m_i = i;
-		m_j = j;		
+		checkCoordinate(i-1, j, board, groupSize);
 	}
-	int m_i, m_j;
-	bool m_checked;
-};
-/*
-struct CoordinateList
-{
-	CoordinateList(int size)
-		: m_coordinates[size]
+
+	if (i < boardSize-1 && checked[i+1][j] == 0 && board.getPiece(i+1, j) == pieceType)
 	{
+		checkCoordinate(i+1, j, board, groupSize);
+	}
+	 
+	if (j > 0 && checked[i][j-1] == 0 && board.getPiece(i, j-1) == pieceType)
+	{
+		checkCoordinate(i, j-1, board, groupSize);
 	}
 	
-	Coordinate[] m_coordinates;
-};
-*/
-/*
-int contains(Coordinate * coord, Coordinates[][] & coordinates, int pieceType)
-{
-	for (int i = 0; i < 
-}
-*/
-void checkCoordinate(Coordinate * coord/*, Coordinate[][] & coordinates*/, int pieceType, int & groupSize)
-{
-    /*        
-	coord->m_checked = true;
-	
-	int leftSideIndex = pieceTypeLists.get(pieceType).contains(coord.i, coord.j-1);
-	if (leftSideIndex != -1 && !pieceTypeLists.get(pieceType).get(leftSideIndex).getChecked()) {
-		groupSize++;
-		checkCoordinate(pieceTypeLists.get(pieceType).get(leftSideIndex), pieceType);
+	if (j < boardSize-1 && checked[i][j+1] == 0  && board.getPiece(i, j+1) == pieceType)
+	{
+		checkCoordinate(i, j+1, board, groupSize);
 	}
-	int topSideIndex = pieceTypeLists.get(pieceType).contains(coord.i-1, coord.j);
-	if (topSideIndex != -1 && !pieceTypeLists.get(pieceType).get(topSideIndex).getChecked()) {
-		groupSize++;
-		checkCoordinate(pieceTypeLists.get(pieceType).get(topSideIndex), pieceType);
-	} 
-	int rightSideIndex = pieceTypeLists.get(pieceType).contains(coord.i, coord.j+1);
-	if (rightSideIndex != -1 && !pieceTypeLists.get(pieceType).get(rightSideIndex).getChecked()) {
-		groupSize++;
-		checkCoordinate(pieceTypeLists.get(pieceType).get(rightSideIndex), pieceType);
-	}
-	int bottomSideIndex = pieceTypeLists.get(pieceType).contains(coord.i+1, coord.j);
-	if (bottomSideIndex != -1 && !pieceTypeLists.get(pieceType).get(bottomSideIndex).getChecked()) {
-		groupSize++;
-		checkCoordinate(pieceTypeLists.get(pieceType).get(bottomSideIndex), pieceType);
-	}   
-	*/
 }
 
 void ScoreCounter::countScore()
 {
 	m_score = 0;
-	int difficulty = (int)m_game->getDifficulty();
-	int pieceCount = (int)m_game->getBoard().getSize() * (int)m_game->getBoard().getSize() / difficulty;
-	Coordinate * coordinates[difficulty][pieceCount];
-	int counters[difficulty];
-	for (int i = 0; i < (int)m_game->getBoard().getSize() ; i++)
+	boardSize = (int)m_game->getBoard().getSize();
+	checked = new int*[boardSize];
+	
+	for (int i = 0; i < boardSize; i++)
 	{
-		for (int j = 0; j < (int)m_game->getBoard().getSize() ; j++)
+		checked[i] = new int[boardSize];
+	}
+	
+	for (int i = 0; i < boardSize; i++)
+	{
+		for (int j = 0; j < boardSize; j++)
 		{
-			int pieceType = m_game->getBoard().getPiece(i, j);
-			coordinates[pieceType][counters[pieceType]++]  = new Coordinate(i, j);
+			checked[i][j] = 0;
 		}
 	}
-			
-	for (int i = 0; i < difficulty; i++)
+	
+	for (int i = 0; i < boardSize; i++)
 	{
-		int groupSize = 0;
-		for (int j = 0; j < pieceCount; j++)
+		for (int j = 0; j < boardSize; j++)
 		{
-			if (!coordinates[i][j]->m_checked)
-			{
-				checkCoordinate(coordinates[i][j], i, groupSize);
+			if (checked[i][j] == 0)
+			{		
+				int groupSize = 0;
+				checkCoordinate(i, j, m_game->getBoard(), groupSize);
 				if (groupSize >= MIN_GROUP_SIZE)
 				{
 					m_score += groupSize * groupSize;
@@ -104,5 +80,11 @@ void ScoreCounter::countScore()
 			}
 		}
 	}
+	
+	for (int i = 0; i < boardSize; i++)
+	{
+		delete [] checked[i];
+	}
+	delete [] checked;
 }
 

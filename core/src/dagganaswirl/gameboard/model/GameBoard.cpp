@@ -18,7 +18,7 @@ GameBoard::GameBoard(GameBoard::Size size)
 	//this->board = int[size][size];
 }
 
-GameBoard::Size GameBoard::getSize()
+const GameBoard::Size GameBoard::getSize() const
 {
 	return m_size;
 }
@@ -28,7 +28,7 @@ void GameBoard::setSize(GameBoard::Size size)
 	m_size = size;
 }
 
-int GameBoard::getPiece(int row, int col)
+int GameBoard::getPiece(const int row, const int col) const
 {
 	// return this->board[row][col];
 	return 1;

@@ -21,9 +21,9 @@ public:
 	
 	GameBoard();
 	GameBoard(Size);
-	Size getSize();
+	const Size getSize() const;
 	void setSize(Size);
-	int getPiece(int, int);
+	int getPiece(const int, const int) const;
 	void setPiece(int, int, int);
 //	std::string toString();
 
