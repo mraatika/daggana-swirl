@@ -1,6 +1,8 @@
 #include "scorecounter.h"
 #include "../game/model/game.h"
 
+#include <vector>
+
 #define MIN_GROUP_SIZE 4
 
 ScoreCounter::ScoreCounter(Game * game)
@@ -77,7 +79,7 @@ void ScoreCounter::countScore()
 	int difficulty = (int)m_game->getDifficulty();
 	int pieceCount = (int)m_game->getBoard().getSize() * (int)m_game->getBoard().getSize() / difficulty;
 	Coordinate * coordinates[difficulty][pieceCount];
-	int counters[pieceCount];
+	int counters[difficulty];
 	for (int i = 0; i < (int)m_game->getBoard().getSize() ; i++)
 	{
 		for (int j = 0; j < (int)m_game->getBoard().getSize() ; j++)

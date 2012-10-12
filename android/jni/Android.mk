@@ -20,3 +20,4 @@ LOCAL_SRC_FILES := \
 LOCAL_LDLIBS := -lGLESv1_CM -ldl -llog
 
 include $(BUILD_SHARED_LIBRARY)
+#include $(BUILD_EXECUTABLE)
