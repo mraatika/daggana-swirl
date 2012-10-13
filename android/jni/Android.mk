@@ -17,6 +17,7 @@ LOCAL_SRC_FILES := \
     $(DAGGANA_SRC_PATH)/game/model/game.cpp \
     $(DAGGANA_SRC_PATH)/gameboard/model/gameboard.cpp \
     $(DAGGANA_SRC_PATH)/selection/model/selection.cpp \
+    $(DAGGANA_SRC_PATH)/gameclock/model/gameclock.cpp \
 
 LOCAL_LDLIBS := -lGLESv1_CM -ldl -llog
 
