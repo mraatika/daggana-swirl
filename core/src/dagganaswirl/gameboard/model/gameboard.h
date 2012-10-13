@@ -22,9 +22,9 @@ public:
 	GameBoard();
 	GameBoard(Size);
 	const Size getSize() const;
-	void setSize(Size);
-	int getPiece(const int, const int) const;
-	void setPiece(int, int, int);
+	void setSize(Size size);
+	int getPiece(const int row, const int col) const;
+	void setPiece(int row, int col, int value);
 //	std::string toString();
 
 private:

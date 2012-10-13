@@ -9,7 +9,7 @@
 
 GameBoard::GameBoard()
 {
-
+	m_size = MEDIUM;
 }
 
 GameBoard::GameBoard(GameBoard::Size size)

@@ -1,2 +1,9 @@
+.settings
+.settings/**/*
+bin
+bin/**/*
+gen/**/*
 libs/**/*
 obj/**/*
+.classpath
+.project

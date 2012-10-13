@@ -4,7 +4,7 @@ import java.util.Random;
 
 public class Selection {
     
-        private Random rnd;
+    private Random rnd;
         
 	public static enum ActionType {
 		CCLOCKWISE, CLOCKWISE, MIRROR_HORIZONTALLY, MIRROR_VERTICALLY, MIRROR_BOTH, SHUFFLE
