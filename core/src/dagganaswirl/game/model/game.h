@@ -5,10 +5,6 @@
 class Game
 {
 public:
-
-	Game();
-	virtual ~Game() {}
-	
 	enum Difficulty
 	{
 		EASY = 4,
@@ -16,10 +12,20 @@ public:
 		HARD = 6
 	};
 	
+	enum GameMode
+	{
+		TIMEATTACK = 20,
+		LIMITEDMOVES = 21
+	};
+	
+	Game(GameMode mode, Difficulty difficulty, GameBoard::Size boardSize);
+	virtual ~Game() {}
+	
 	Difficulty getDifficulty();
 	GameBoard & getBoard();
 	
 private:
-	Difficulty difficulty;
-	GameBoard gameBoard;
+	Difficulty m_difficulty;
+	GameBoard m_gameBoard;
+	GameMode m_gameMode;
 };

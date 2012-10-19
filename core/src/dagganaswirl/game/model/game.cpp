@@ -1,17 +1,16 @@
 #include "game.h"
 
-Game::Game()
-	: gameBoard(GameBoard::MEDIUM)
+Game::Game(GameMode mode, Difficulty difficulty, GameBoard::Size boardSize)
+	: m_gameBoard(boardSize), m_difficulty(difficulty), m_gameMode(mode)
 {
-	difficulty = Game::EASY;
 }
 
 Game::Difficulty Game::getDifficulty()
 {
-	return difficulty;
+	return m_difficulty;
 }
 
 GameBoard & Game::getBoard()
 {
-	return gameBoard;
+	return m_gameBoard;
 }
