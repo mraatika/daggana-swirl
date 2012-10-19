@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-      package="com.example.SanAngeles"
+      package="fi.dagganaswirl"
       android:versionCode="1"
       android:versionName="1.0">
     <application android:label="@string/app_name">
-        <activity android:name=".DemoActivity"
+        <activity android:name=".DagganaActivity"
                   android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -12,5 +12,5 @@
             </intent-filter>
         </activity>
     </application>
-    <uses-sdk android:minSdkVersion="4" />
+    <uses-sdk android:minSdkVersion="8" />
 </manifest> 

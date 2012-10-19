@@ -39,7 +39,7 @@
  * Fixing the program to send less polygons to the GPU is left
  * as an exercise to the reader. As always, patches welcomed :-)
  */
-package com.example.SanAngeles;
+package fi.dagganaswirl;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -50,11 +50,11 @@ import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.view.MotionEvent;
 
-public class DemoActivity extends Activity {
+public class DagganaActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mGLView = new DemoGLSurfaceView(this);
+        mGLView = new DagganaGLSurfaceView(this);
         setContentView(mGLView);
     }
 
@@ -77,26 +77,26 @@ public class DemoActivity extends Activity {
     }
 }
 
-class DemoGLSurfaceView extends GLSurfaceView {
-    public DemoGLSurfaceView(Context context) {
+class DagganaGLSurfaceView extends GLSurfaceView {
+    public DagganaGLSurfaceView(Context context) {
         super(context);
-        mRenderer = new DemoRenderer();
+        mRenderer = new DagganaRenderer();
         setRenderer(mRenderer);
     }
 
-    public boolean onTouchEvent(final MotionEvent event) {
-        if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            nativePause();
-        }
-        return true;
-    }
+//    public boolean onTouchEvent(final MotionEvent event) {
+//        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+//            nativePause();
+//        }
+//        return true;
+//    }
 
-    DemoRenderer mRenderer;
+    DagganaRenderer mRenderer;
 
-    private static native void nativePause();
+    // private static native void nativePause();
 }
 
-class DemoRenderer implements GLSurfaceView.Renderer {
+class DagganaRenderer implements GLSurfaceView.Renderer {
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
         nativeInit();
     }
@@ -113,5 +113,5 @@ class DemoRenderer implements GLSurfaceView.Renderer {
     private static native void nativeInit();
     private static native void nativeResize(int w, int h);
     private static native void nativeRender();
-    private static native void nativeDone();
+    // private static native void nativeDone();
 }
