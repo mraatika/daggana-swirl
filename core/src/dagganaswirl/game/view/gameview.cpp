@@ -10,8 +10,8 @@
 
 GameView::GameView()
 {
-    m_width = 600;
-    m_height = 800;
+    m_geometry.width = 600;
+    m_geometry.height = 800;
 }
 
 GLfloat vertices[6];
@@ -21,19 +21,27 @@ void GameView::initGL()
     //2d setup
     glMatrixMode (GL_PROJECTION);
     glLoadIdentity ();
-    glOrtho (0, m_width, m_height, 0, 1, -1);
-    glViewport(0, 0, m_width, m_height);
+    glOrtho (0, m_geometry.width, m_geometry.height, 0, 1, -1);
+    glViewport(0, 0, m_geometry.width, m_geometry.height);
     glMatrixMode (GL_MODELVIEW);
     glDisable(GL_DEPTH_TEST);
     glEnable(GL_TEXTURE_2D);
     
-    vertices[0] = (float)m_width/2;
+    vertices[0] = (float)m_geometry.width/2;
     vertices[1] = 0.0f;
     vertices[2] = 0.0f;
-    vertices[3] = (float)m_height;
-    vertices[4] = (float)m_width;
-    vertices[5] = (float)m_height;
-
+    vertices[3] = (float)m_geometry.height;
+    vertices[4] = (float)m_geometry.width;
+    vertices[5] = (float)m_geometry.height;
+    
+    m_views.push_back(&m_boardView);
+    
+    //initialize children views
+    std::vector<OpenGLView *>::const_iterator it;
+    for (it = m_views.begin(); it < m_views.end(); ++it)
+    {
+        (*it)->initGL();
+    }
 }
 
 void GameView::drawGL()
@@ -48,11 +56,18 @@ void GameView::drawGL()
     glDrawArrays(GL_TRIANGLES, 0, 3);
     
     glDisableClientState(GL_VERTEX_ARRAY);
+    
+    //Drawing of children views
+    std::vector<OpenGLView *>::const_iterator it;
+    for (it = m_views.begin(); it < m_views.end(); ++it)
+    {
+        (*it)->drawGL();
+    }
 }
 
 void GameView::resizeGL(int w, int h)
 {
-    m_height = h;
-    m_width = w;
+    m_geometry.height = h;
+    m_geometry.width = w;
     initGL();
 }
