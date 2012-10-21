@@ -3,6 +3,7 @@
 //#include <SFML/Network.hpp>
 
 #include "../../core/src/dagganaswirl/game/view/gameview.h"
+#include "../../core/src/dagganaswirl/application/controllers/DagganaApp.h"
 
 int main (int argc, const char * argv[])
 {
@@ -10,9 +11,8 @@ int main (int argc, const char * argv[])
     sf::Window window(sf::VideoMode(600, 800), "Daggana Swirl");
 
     //setup dagganaswirl
-    GameView gameView;
-    gameView.initGL();
-    
+    DagganaApp app;
+    app.getGameView()->initGL();
     
     // Start the game loop
     while (window.isOpen())
@@ -33,7 +33,7 @@ int main (int argc, const char * argv[])
     	window.setActive();
         
         //draw dagganaswirl
-        gameView.drawGL();
+        app.getGameView()->drawGL();
 
     	// Update the window
     	window.display();

@@ -73,7 +73,7 @@ public class DagganaActivity extends Activity {
     private GLSurfaceView mGLView;
 
     static {
-        System.loadLibrary("sanangeles");
+        System.loadLibrary("dagganaswirl");
     }
 }
 
