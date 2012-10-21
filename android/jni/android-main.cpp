@@ -19,11 +19,18 @@ JNIEXPORT void JNICALL Java_fi_dagganaswirl_DagganaRenderer_nativeInit(JNIEnv*  
 
 JNIEXPORT void JNICALL Java_fi_dagganaswirl_DagganaRenderer_nativeRender(JNIEnv*  env)
 {
-	app->getGameView()->drawGL();
+	if (app)
+	{
+		app->getGameView()->drawGL();
+	}
 }
 
 JNIEXPORT void JNICALL Java_fi_dagganaswirl_DagganaRenderer_nativeResize(JNIEnv*  env, jobject  thiz, jint w, jint h)
 {
+	if (app)
+	{
+		app->getGameView()->resizeGL(w, h);
+	}
 }
 
 }

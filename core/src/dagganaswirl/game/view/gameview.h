@@ -12,9 +12,14 @@
 class GameView
 {
 public:
+    GameView();
+    
     void initGL();
     void drawGL();
+    void resizeGL(int w, int h);
     
+private:
+    int m_width, m_height;
 };
 
 #endif /* defined(__DagganaSwirl__gameview__) */

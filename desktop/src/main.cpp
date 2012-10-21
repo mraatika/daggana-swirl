@@ -28,6 +28,12 @@ int main (int argc, const char * argv[])
     		// Escape pressed : exit
     		if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)
     			window.close();
+            
+            //screen resized
+            if (event.type == sf::Event::Resized)
+            {
+                app.getGameView()->resizeGL(event.size.width, event.size.height);
+            }
     	}
 
     	window.setActive();
