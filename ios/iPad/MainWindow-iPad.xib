@@ -171,7 +171,7 @@
 					<string>EAGLView</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>IBBuiltInLabel-Purple</string>
-					<string>Lesson01AppDelegate</string>
+					<string>DagganaAppDelegate</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<object class="NSMutableDictionary">
 						<bool key="EncodedWithXMLCoder">YES</bool>
