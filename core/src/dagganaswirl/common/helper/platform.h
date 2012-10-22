@@ -1,8 +1,12 @@
 #pragma once
+ 
+#ifdef DAGGANA_IOS
+    #import <OpenGLES/ES1/gl.h>
+    #define glClearDepth glClearDepthf
+    #define glOrtho glOrthof
+#endif
 
-#define OS_X
-
-#ifdef OS_X
+#ifdef DAGGANA_OS_X
 	#include <OpenGL/gl.h>
 #endif
 

@@ -69,5 +69,4 @@ void GameView::resizeGL(int w, int h)
 {
     m_geometry.height = h;
     m_geometry.width = w;
-    initGL();
 }
