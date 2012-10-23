@@ -11,6 +11,9 @@
 
 #include "../../common/view/openglview.h"
 #include "../../gameboard/view/boardview.h"
+#include "../../gameclock/view/clockview.h"
+#include "../../scorecounter/view/scoreview.h"
+#include "../../button/view/buttonview.h"
 
 #include <vector>
 
@@ -19,12 +22,20 @@ class GameView : public OpenGLView
 public:
     GameView();
     
+    //Overriden OpenGLView functions
     void initGL();
     void drawGL();
-    void resizeGL(int w, int h);
+    void sizeGL(int x, int y, int width, int height);
     
 private:
+    void updateLayout();
+    
+//member variables
+private:
     BoardView m_boardView;
+    ClockView m_clockView;
+    ScoreView m_scoreView;
+    ButtonView m_buttonView;
     
     std::vector<OpenGLView *> m_views;
 };

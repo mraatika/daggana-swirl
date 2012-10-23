@@ -16,7 +16,6 @@ class BoardView : public OpenGLView
 public:
     void initGL();
     void drawGL();
-    void resizeGL(int width, int height);
 };
 
 #endif /* defined(__DagganaSwirl__boardview__) */

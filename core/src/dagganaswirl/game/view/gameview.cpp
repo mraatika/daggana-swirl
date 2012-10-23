@@ -5,68 +5,107 @@
 //  Created by Kimmo Keronen on 10/19/12.
 //
 //
+#include "assert.h"
+
 #include "../../common/helper/platform.h"
 #include "gameview.h"
 
 GameView::GameView()
+    : OpenGLView()
 {
-    m_geometry.width = 600;
-    m_geometry.height = 800;
+    m_views.push_back(&m_buttonView);
+    m_views.push_back(&m_scoreView);
+    m_views.push_back(&m_boardView);
+    m_views.push_back(&m_clockView);
 }
-
-GLfloat vertices[6];
 
 void GameView::initGL()
 {
+    assert(m_geometry.width > 0 && m_geometry.height > 0);
+    
+    
     //2d setup
     glMatrixMode (GL_PROJECTION);
     glLoadIdentity ();
-    glOrtho (0, m_geometry.width, m_geometry.height, 0, 1, -1);
-    glViewport(0, 0, m_geometry.width, m_geometry.height);
+    glOrtho (m_geometry.x, m_geometry.width, m_geometry.height, m_geometry.y, 1, -1);
+    glViewport(m_geometry.x, m_geometry.y, m_geometry.width, m_geometry.height);
     glMatrixMode (GL_MODELVIEW);
     glDisable(GL_DEPTH_TEST);
     glEnable(GL_TEXTURE_2D);
     
-    vertices[0] = (float)m_geometry.width/2;
-    vertices[1] = 0.0f;
-    vertices[2] = 0.0f;
-    vertices[3] = (float)m_geometry.height;
-    vertices[4] = (float)m_geometry.width;
-    vertices[5] = (float)m_geometry.height;
-    
-    m_views.push_back(&m_boardView);
-    
-    //initialize children views
-    std::vector<OpenGLView *>::const_iterator it;
-    for (it = m_views.begin(); it < m_views.end(); ++it)
-    {
-        (*it)->initGL();
-    }
+    m_initialized = true;
 }
 
 void GameView::drawGL()
 {
-    glClear(GL_COLOR_BUFFER_BIT);         // Clear The Screen And The Depth
-    glLoadIdentity();
-    
-    glEnableClientState(GL_VERTEX_ARRAY);
-    
-    glVertexPointer(2, GL_FLOAT, 0, vertices);
-    
-    glDrawArrays(GL_TRIANGLES, 0, 3);
-    
-    glDisableClientState(GL_VERTEX_ARRAY);
-    
-    //Drawing of children views
-    std::vector<OpenGLView *>::const_iterator it;
-    for (it = m_views.begin(); it < m_views.end(); ++it)
+    if (m_initialized)
     {
-        (*it)->drawGL();
+        glClear(GL_COLOR_BUFFER_BIT);         // Clear The Screen And The Depth
+        glLoadIdentity();
+        
+        //Drawing of children views
+        std::vector<OpenGLView *>::const_iterator it;
+        for (it = m_views.begin(); it != m_views.end(); ++it)
+        {
+           (*it)->drawGL();
+        }
+    }
+    else
+    {
+        initGL();
     }
 }
 
-void GameView::resizeGL(int w, int h)
+void GameView::sizeGL(int x, int y, int width, int height)
 {
-    m_geometry.height = h;
-    m_geometry.width = w;
+    OpenGLView::sizeGL(x, y, width, height);
+    updateLayout();
+}
+
+void GameView::updateLayout()
+{
+    if (m_geometry.width > 0 && m_geometry.height > 0 && !m_views.empty())
+    {
+        if (m_geometry.width > m_geometry.height)
+        {
+            //Landscape
+            
+            m_scoreView.sizeGL(0,
+                               (int)(0.3 * m_geometry.height),
+                               (int)(0.2 * m_geometry.width),
+                               (int)(0.7 * m_geometry.height));
+            
+            m_clockView.sizeGL(0,
+                               0,
+                               (int)(0.2 * m_geometry.width),
+                               (int)(0.3 * m_geometry.height));
+            
+            m_buttonView.sizeGL((int)(0.2 * m_geometry.width),
+                                (int)(0.8 * m_geometry.height),
+                                (int)(0.8 * m_geometry.width),
+                                (int)(0.2 * m_geometry.height));
+            
+            m_boardView.sizeGL((int)(0.2 * m_geometry.width),
+                               0,
+                               (int)(0.8 * m_geometry.width),
+                               (int)(0.8 * m_geometry.height));
+            
+        }
+        else
+        {
+            //Portrait
+            
+            m_scoreView.sizeGL(0, 0, (int)(0.7 * m_geometry.width),
+                               (int)(0.2 * m_geometry.height));
+            m_clockView.sizeGL((int)(0.7 * m_geometry.width), 0, (int)(0.3 * m_geometry.width),
+                               (int)(0.2 * m_geometry.height));
+            m_buttonView.sizeGL(0, (int)(0.2 * m_geometry.height),
+                                (int)(0.2 * m_geometry.width),
+                                (int)(0.8 * m_geometry.height));
+            m_boardView.sizeGL((int)(0.2 * m_geometry.width),
+                               (int)(0.2 * m_geometry.height),
+                               (int)(0.8 * m_geometry.width),
+                               (int)(0.8 * m_geometry.height));
+        }
+    }
 }

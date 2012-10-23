@@ -12,7 +12,7 @@ int main (int argc, const char * argv[])
 
     //setup dagganaswirl
     DagganaApp app;
-    app.getGameView()->initGL();
+    app.getGameView()->sizeGL(0, 0, 600, 800);
     
     // Start the game loop
     while (window.isOpen())
@@ -32,7 +32,7 @@ int main (int argc, const char * argv[])
             //screen resized
             if (event.type == sf::Event::Resized)
             {
-                app.getGameView()->resizeGL(event.size.width, event.size.height);
+                app.getGameView()->sizeGL(0, 0, event.size.width, event.size.height);
             }
     	}
 
