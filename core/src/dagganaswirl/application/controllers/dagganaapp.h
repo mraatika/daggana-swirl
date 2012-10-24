@@ -9,18 +9,30 @@
 #ifndef DagganaSwirl_dagganaapp_h
 #define DagganaSwirl_dagganaapp_h
 
+#include "../../game/model/game.h"
+
 #include "../../game/view/gameview.h"
+
+#include <vector>
 
 class DagganaApp
 {
 public:
-    DagganaApp();
+    DagganaApp(int width, int height);
     ~DagganaApp();
     
-    GameView * getGameView();
+    bool playGame(Game::GameMode mode, Game::Difficulty difficulty);
+    
+    void resize(int width, int height);
+    
+    void draw();
 
 private:
-    GameView * m_gameView;
+    std::vector<OpenGLView *> m_views;
+    
+    Game * m_game;
+    
+    int m_width, m_height;
 };
 
 #endif

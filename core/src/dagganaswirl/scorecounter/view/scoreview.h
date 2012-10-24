@@ -14,6 +14,8 @@
 class ScoreView : public OpenGLView
 {
 public:
+    
+    ~ScoreView() {}
     void initGL();
     void drawGL();
 };

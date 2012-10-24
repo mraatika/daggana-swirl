@@ -14,6 +14,8 @@
 class ClockView : public OpenGLView
 {
 public:
+    
+    ~ClockView() {}
     void initGL();
     void drawGL();
 };

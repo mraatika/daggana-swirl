@@ -14,6 +14,8 @@
 class BoardView : public OpenGLView
 {
 public:
+    
+    ~BoardView() {}
     void initGL();
     void drawGL();
 };

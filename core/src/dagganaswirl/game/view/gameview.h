@@ -20,7 +20,8 @@
 class GameView : public OpenGLView
 {
 public:
-    GameView();
+    GameView(int width, int height);
+    ~GameView() {}
     
     //Overriden OpenGLView functions
     void initGL();

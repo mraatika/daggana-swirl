@@ -14,6 +14,8 @@
 class ButtonView : public OpenGLView
 {
 public:
+    
+    ~ButtonView() {}
     void initGL();
     void drawGL();
 };

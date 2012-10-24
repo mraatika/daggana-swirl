@@ -2,17 +2,18 @@
 //#include <SFML/Audio.hpp>
 //#include <SFML/Network.hpp>
 
-#include "../../core/src/dagganaswirl/game/view/gameview.h"
 #include "../../core/src/dagganaswirl/application/controllers/DagganaApp.h"
+
+#define WIDTH 600
+#define HEIGHT 800
 
 int main (int argc, const char * argv[])
 {
     // Create the main window
-    sf::Window window(sf::VideoMode(600, 800), "Daggana Swirl");
+    sf::Window window(sf::VideoMode(WIDTH, HEIGHT), "Daggana Swirl");
 
     //setup dagganaswirl
-    DagganaApp app;
-    app.getGameView()->sizeGL(0, 0, 600, 800);
+    DagganaApp app(WIDTH, HEIGHT);
     
     // Start the game loop
     while (window.isOpen())
@@ -32,14 +33,14 @@ int main (int argc, const char * argv[])
             //screen resized
             if (event.type == sf::Event::Resized)
             {
-                app.getGameView()->sizeGL(0, 0, event.size.width, event.size.height);
+                app.resize(event.size.width, event.size.height);
             }
     	}
 
     	window.setActive();
         
         //draw dagganaswirl
-        app.getGameView()->drawGL();
+        app.draw();
 
     	// Update the window
     	window.display();

@@ -10,9 +10,10 @@
 #include "../../common/helper/platform.h"
 #include "gameview.h"
 
-GameView::GameView()
-    : OpenGLView()
+GameView::GameView(int width, int height)
 {
+    sizeGL(0, 0, width, height);
+    
     m_views.push_back(&m_buttonView);
     m_views.push_back(&m_scoreView);
     m_views.push_back(&m_boardView);
@@ -64,7 +65,7 @@ void GameView::sizeGL(int x, int y, int width, int height)
 
 void GameView::updateLayout()
 {
-    if (m_geometry.width > 0 && m_geometry.height > 0 && !m_views.empty())
+    if (m_geometry.width > 0 && m_geometry.height > 0)
     {
         if (m_geometry.width > m_geometry.height)
         {

@@ -20,6 +20,8 @@ class OpenGLView
 public:
     
     OpenGLView() { m_initialized = false; }
+    virtual ~OpenGLView() {}
+    
 	virtual void initGL() = 0;
 	virtual void drawGL() = 0;
 	virtual void sizeGL(int x, int y, int width, int height)
