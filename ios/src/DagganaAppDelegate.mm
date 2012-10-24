@@ -42,9 +42,9 @@
     
     //we tell our OpenGL view which lesson we want to use for rendering.
     
-    m_app = new DagganaApp();
+    //m_app = new DagganaApp();
     
-    [glView setGLView:m_app->getGameView()];
+    [glView setApp:m_app];
     
     return YES;
 }

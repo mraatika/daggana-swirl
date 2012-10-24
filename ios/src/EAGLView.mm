@@ -22,10 +22,9 @@
 
 #import <QuartzCore/QuartzCore.h>
 
-#import "../../core/src/dagganaswirl/common/view/openglview.h"
-
 #import "EAGLView.h"
 //#include "Lesson.h"
+#include "../../core/src/dagganaswirl/application/controllers/dagganaapp.h"
 
 //declare private methods, so they can be used everywhere in this file
 @interface EAGLView (PrivateMethods)
@@ -120,12 +119,7 @@
    
     //our lesson needs to know the size of the renderbuffer so it can work with the right aspect ratio
     
-    if(m_gameView != NULL)
-    {
-        //lesson->setRenderbufferSize(framebufferWidth, framebufferHeight);
-        m_gameView->resizeGL(framebufferWidth, framebufferHeight);
-    }
-     
+    m_app = new DagganaApp(framebufferWidth, framebufferHeight);
     
     //check that our configuration of the framebuffer is valid
     if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
@@ -172,18 +166,10 @@
         
         //we need a lesson to be able to render something
         
-        if(m_gameView != nil)
+        if(m_app != nil)
         {
-            //check whether we have to initialize the lesson
-            if(gameViewIsInitialized == FALSE)
-            {
-                //lesson->init();
-                m_gameView->initGL();
-                gameViewIsInitialized = TRUE;
-            }
-            
             //perform the actual drawing!
-            m_gameView->drawGL();
+            m_app->draw();
         }
          
         
@@ -223,9 +209,9 @@
     }
 }
 
-- (void) setGLView:(OpenGLView*)newView
+- (void) setApp:(DagganaApp*)app
 {
-    m_gameView = newView;
+    m_app = app;
     //if we set a new lesson, it is not yet initialized!
     gameViewIsInitialized = FALSE;
 }
