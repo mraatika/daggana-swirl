@@ -9,7 +9,7 @@
 #ifndef __DagganaSwirl__buttonviewcpp__
 #define __DagganaSwirl__buttonviewcpp__
 
-#import "../../common/view/openglview.h"
+#include "../../common/view/openglview.h"
 
 class ButtonView : public OpenGLView
 {

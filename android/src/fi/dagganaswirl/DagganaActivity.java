@@ -98,11 +98,13 @@ class DagganaGLSurfaceView extends GLSurfaceView {
 
 class DagganaRenderer implements GLSurfaceView.Renderer {
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
-        nativeInit();
     }
 
     public void onSurfaceChanged(GL10 gl, int w, int h) {
-        //gl.glViewport(0, 0, w, h);
+        if (!initialized)
+        {
+        	nativeInit(w, h);
+        }
         nativeResize(w, h);
     }
 
@@ -110,8 +112,10 @@ class DagganaRenderer implements GLSurfaceView.Renderer {
         nativeRender();
     }
 
-    private static native void nativeInit();
+    private static native void nativeInit(int w, int h);
     private static native void nativeResize(int w, int h);
     private static native void nativeRender();
+    
+    private boolean initialized = false;
     // private static native void nativeDone();
 }

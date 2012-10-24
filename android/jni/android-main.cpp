@@ -1,27 +1,25 @@
 #include <jni.h>
 
 #include "../../core/src/dagganaswirl/application/controllers/dagganaapp.h"
-#include "../../core/src/dagganaswirl/game/view/gameview.h"
 
 DagganaApp * app = 0;
 
 
 extern "C" {
 
-JNIEXPORT void JNICALL Java_fi_dagganaswirl_DagganaRenderer_nativeInit(JNIEnv*  env)
+JNIEXPORT void JNICALL Java_fi_dagganaswirl_DagganaRenderer_nativeInit(JNIEnv*  env, jobject  thiz, jint w, jint h)
 {
 	if (!app)
 	{
-		app = new DagganaApp();
+		app = new DagganaApp(w, h);
 	}
-	app->getGameView()->initGL();
 }
 
 JNIEXPORT void JNICALL Java_fi_dagganaswirl_DagganaRenderer_nativeRender(JNIEnv*  env)
 {
 	if (app)
 	{
-		app->getGameView()->drawGL();
+		app->draw();
 	}
 }
 
@@ -29,7 +27,7 @@ JNIEXPORT void JNICALL Java_fi_dagganaswirl_DagganaRenderer_nativeResize(JNIEnv*
 {
 	if (app)
 	{
-		app->getGameView()->resizeGL(w, h);
+		app->resize(w, h);
 	}
 }
 

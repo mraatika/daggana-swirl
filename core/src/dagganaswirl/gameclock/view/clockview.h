@@ -9,7 +9,7 @@
 #ifndef __DagganaSwirl__clockview__
 #define __DagganaSwirl__clockview__
 
-#import "../../common/view/openglview.h"
+#include "../../common/view/openglview.h"
 
 class ClockView : public OpenGLView
 {

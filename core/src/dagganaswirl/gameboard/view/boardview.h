@@ -9,7 +9,7 @@
 #ifndef __DagganaSwirl__boardview__
 #define __DagganaSwirl__boardview__
 
-#import "../../common/view/openglview.h"
+#include "../../common/view/openglview.h"
 
 class BoardView : public OpenGLView
 {

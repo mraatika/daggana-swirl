@@ -9,7 +9,7 @@
 #ifndef __DagganaSwirl__scoreview__
 #define __DagganaSwirl__scoreview__
 
-#import "../../common/view/openglview.h"
+#include "../../common/view/openglview.h"
 
 class ScoreView : public OpenGLView
 {
