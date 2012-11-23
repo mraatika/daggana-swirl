@@ -1,16 +1,21 @@
 #include "game.h"
 
-Game::Game(GameMode mode, Difficulty difficulty, GameBoard::Size boardSize)
-	: m_gameBoard(boardSize), m_difficulty(difficulty), m_gameMode(mode)
+Game::Game(const DagganaApp * app, GameMode mode, Difficulty difficulty, GameBoard::Size boardSize)
+	: m_difficulty(difficulty), m_gameBoard(app, boardSize), m_gameMode(mode)
 {
 }
 
-Game::Difficulty Game::getDifficulty()
+Game::Difficulty Game::getDifficulty() const
 {
-	return m_difficulty;
+    return m_difficulty;
 }
 
-GameBoard & Game::getBoard()
+const GameBoard & Game::getBoard() const
 {
 	return m_gameBoard;
+}
+
+void Game::initialize()
+{
+    m_gameBoard.initialize();
 }

@@ -17,10 +17,12 @@
 
 #include <vector>
 
+class DagganaApp;
+
 class GameView : public OpenGLView
 {
 public:
-    GameView(int width, int height);
+    GameView(const DagganaApp * app, const int width, const int height);
     ~GameView() {}
     
     //Overriden OpenGLView functions

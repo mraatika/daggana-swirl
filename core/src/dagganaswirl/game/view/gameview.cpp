@@ -10,7 +10,7 @@
 #include "../../common/helper/platform.h"
 #include "gameview.h"
 
-GameView::GameView(int width, int height)
+GameView::GameView(const DagganaApp * app, const int width, const int height)
 {
     sizeGL(0, 0, width, height);
     
@@ -18,6 +18,11 @@ GameView::GameView(int width, int height)
     m_views.push_back(&m_scoreView);
     m_views.push_back(&m_boardView);
     m_views.push_back(&m_clockView);
+    
+    for (int i=0; i < m_views.size(); i++)
+    {
+        m_views[i]->setApp(app);
+    }
 }
 
 void GameView::initGL()

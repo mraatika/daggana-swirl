@@ -8,17 +8,21 @@
 
 #include "boardview.h"
 #include "../../common/helper/platform.h"
+#include "dagganaapp.h"
+#include "../../game/model/game.h"
 
-GLfloat boardvertices[6];
+GLfloat boardvertices[8];
 
 void BoardView::initGL()
 {
-    boardvertices[0] = (float)m_geometry.width/2;
+    boardvertices[0] = 0.0f;
     boardvertices[1] = 0.0f;
-    boardvertices[2] = 0.0f;
-    boardvertices[3] = (float)m_geometry.height;
-    boardvertices[4] = (float)m_geometry.width;
-    boardvertices[5] = (float)m_geometry.height;
+    boardvertices[2] = (float)m_geometry.width / (float)m_app->getGame()->getBoard().getSize();
+    boardvertices[3] = 0.0f;
+    boardvertices[4] = 0.0f;
+    boardvertices[5] = (float)m_geometry.height / (float)m_app->getGame()->getBoard().getSize();
+    boardvertices[6] = (float)m_geometry.width / (float)m_app->getGame()->getBoard().getSize();
+    boardvertices[7] = (float)m_geometry.height / (float)m_app->getGame()->getBoard().getSize();
     
     m_initialized = true;
 }
@@ -33,8 +37,22 @@ void BoardView::drawGL()
         glEnableClientState(GL_VERTEX_ARRAY);
         
         glVertexPointer(2, GL_FLOAT, 0, boardvertices);
-        
-        glDrawArrays(GL_TRIANGLES, 0, 3);
+        for (int i=0; i < m_app->getGame()->getBoard().getSize(); i++)
+        {
+            for (int j=0; j < m_app->getGame()->getBoard().getSize(); j++)
+            {
+                int piece = m_app->getGame()->getBoard().getPiece(i, j);
+                glPushMatrix();
+                glColor4f(.1f * piece, .2f * piece, .3f * piece, 1.f);
+                glTranslatef(
+                             (float)(m_geometry.width / m_app->getGame()->getBoard().getSize() * i),
+                             (float)(m_geometry.height / m_app->getGame()->getBoard().getSize() * j),
+                             0)
+                ;
+                glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+                glPopMatrix();
+            }
+        }
         
         glPopMatrix();
     }

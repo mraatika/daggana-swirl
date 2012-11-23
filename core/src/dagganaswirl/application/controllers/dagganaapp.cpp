@@ -2,12 +2,13 @@
 
 #include "assert.h"
 
-DagganaApp::DagganaApp(int width, int height)
+DagganaApp::DagganaApp(const int width, const int height)
 : m_width(width), m_height(height)
 {
     //test game and view
-    m_game = new Game(Game::TIMEATTACK, Game::MEDIUM, GameBoard::MEDIUM);
-    m_views.push_back(new GameView(width, height));
+    m_game = new Game(this, Game::TIMEATTACK, Game::HARD, GameBoard::MEDIUM);
+    m_game->initialize();
+    m_views.push_back(new GameView(this, width, height));
 }
 
 DagganaApp::~DagganaApp()
@@ -26,7 +27,7 @@ bool DagganaApp::playGame(Game::GameMode mode, Game::Difficulty difficulty)
     return true;
 }
 
-void DagganaApp::resize(int width, int height)
+void DagganaApp::resize(const int width, const int height)
 {
     m_width = width;
     m_height = height;
@@ -41,10 +42,15 @@ void DagganaApp::resize(int width, int height)
     }
 }
 
-void DagganaApp::draw()
+void DagganaApp::draw() const
 {
     //check if there's any views to draw
     assert(!m_views.empty());
     
     m_views.back()->drawGL();
+}
+
+const Game * DagganaApp::getGame() const
+{
+    return m_game;
 }

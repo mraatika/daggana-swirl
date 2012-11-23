@@ -18,14 +18,16 @@
 class DagganaApp
 {
 public:
-    DagganaApp(int width, int height);
+    DagganaApp(const int width, const int height);
     ~DagganaApp();
     
     bool playGame(Game::GameMode mode, Game::Difficulty difficulty);
     
-    void resize(int width, int height);
+    void resize(const int width, const int height);
     
-    void draw();
+    void draw() const;
+    
+    const Game * getGame() const;
 
 private:
     std::vector<OpenGLView *> m_views;

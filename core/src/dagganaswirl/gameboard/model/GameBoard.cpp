@@ -6,16 +6,43 @@
  */
 
 #include "GameBoard.h"
+#include "dagganaapp.h"
+#include "../../game/model/game.h"
 
-GameBoard::GameBoard()
+#include <stdlib.h>
+#include <time.h>
+
+GameBoard::GameBoard(const DagganaApp * app)
 {
-	m_size = MEDIUM;
+	GameBoard(app, MEDIUM);
 }
 
-GameBoard::GameBoard(GameBoard::Size size)
+GameBoard::GameBoard(const DagganaApp * app, GameBoard::Size size)
 {
+    m_app = app;
 	m_size = size;
-	//this->board = int[size][size];
+	m_board = new int *[size];
+    
+    for (int i=0; i < size; i++)
+    {
+        m_board[i] = new int[size];
+    }
+    
+}
+
+void GameBoard::initialize()
+{
+    /* initialize random seed: */
+    srand ( time(NULL) );
+    
+    for (int i=0; i < m_size; i++)
+    {
+        for (int j=0; j < m_size; j++)
+        {
+            m_board[i][j] = rand() % (int)m_app->getGame()->getDifficulty();
+        }
+    }
+    
 }
 
 const GameBoard::Size GameBoard::getSize() const
@@ -30,8 +57,7 @@ void GameBoard::setSize(GameBoard::Size size)
 
 int GameBoard::getPiece(const int row, const int col) const
 {
-	// return this->board[row][col];
-	return 1;
+	return m_board[row][col];
 }
 
 void GameBoard::setPiece(int row, int col, int value)

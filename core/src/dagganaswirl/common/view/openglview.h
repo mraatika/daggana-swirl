@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- *  Struct to defien view geometry.
+ *  Struct to define view geometry.
  */ 
 struct Geometry
 {
@@ -15,6 +15,8 @@ struct Geometry
  *	Interface class to define functions, DagganaSwirl view classes
  *	should implement.
  */
+class DagganaApp;
+
 class OpenGLView
 {
 public:
@@ -33,8 +35,11 @@ public:
         
         m_initialized = false;
     }
+    
+    void setApp(const DagganaApp * app) { m_app = app; }
 	
 protected:
 	Geometry m_geometry;
     bool m_initialized;
+    const DagganaApp * m_app;
 };
