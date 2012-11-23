@@ -8,7 +8,7 @@
 
 #include "boardview.h"
 #include "../../common/helper/platform.h"
-#include "dagganaapp.h"
+#include "../../application/controllers/dagganaapp.h"
 #include "../../game/model/game.h"
 
 GLfloat boardvertices[8];

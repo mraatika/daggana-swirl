@@ -6,7 +6,7 @@
  */
 
 #include "GameBoard.h"
-#include "dagganaapp.h"
+#include "../../application/controllers/dagganaapp.h"
 #include "../../game/model/game.h"
 
 #include <stdlib.h>
