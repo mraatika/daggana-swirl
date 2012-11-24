@@ -32,6 +32,8 @@ public:
     void mousePressed(const int x, const int y);
     
     void mouseReleased(const int x, const int y);
+    
+    void mouseMoved(const int x, const int y);
 
 private:
     std::vector<OpenGLView *> m_views;

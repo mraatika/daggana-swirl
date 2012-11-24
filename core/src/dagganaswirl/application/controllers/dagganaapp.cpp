@@ -64,3 +64,8 @@ void DagganaApp::mouseReleased(const int x, const int y)
 {
     m_views.back()->mouseReleased(x, y);
 }
+
+void DagganaApp::mouseMoved(const int x, const int y)
+{
+    m_views.back()->mouseMoved(x, y);
+}

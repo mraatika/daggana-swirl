@@ -68,6 +68,39 @@ void GameView::sizeGL(int x, int y, int width, int height)
     updateLayout();
 }
 
+void GameView::mousePressed(const int x, const int y)
+{
+    for (int i=0; i<m_views.size(); i++)
+    {
+        if (m_views[i]->contains(x, y))
+        {
+            m_views[i]->mousePressed(x, y);
+        }
+    }
+}
+
+void GameView::mouseReleased(const int x, const int y)
+{
+    for (int i=0; i<m_views.size(); i++)
+    {
+        if (m_views[i]->mouseIsDown())
+        {
+            m_views[i]->mouseReleased(x, y);
+        }
+    }
+}
+
+void GameView::mouseMoved(const int x, const int y)
+{
+    for (int i=0; i<m_views.size(); i++)
+    {
+        if (m_views[i]->contains(x, y))
+        {
+            m_views[i]->mouseMoved(x, y);
+        }
+    }
+}
+
 void GameView::updateLayout()
 {
     if (m_geometry.width > 0 && m_geometry.height > 0)
