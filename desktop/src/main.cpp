@@ -35,6 +35,18 @@ int main (int argc, const char * argv[])
             {
                 app.resize(event.size.width, event.size.height);
             }
+            
+            //Mouse pressed : pass to application
+            if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left)
+            {
+                app.mousePressed(event.mouseButton.x, event.mouseButton.y);
+            }
+            
+            //Mouse released : pass to application
+            if (event.type == sf::Event::MouseButtonReleased && event.mouseButton.button == sf::Mouse::Left)
+            {
+                app.mouseReleased(event.mouseButton.x, event.mouseButton.y);
+            }
     	}
 
     	window.setActive();

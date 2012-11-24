@@ -28,6 +28,10 @@ public:
     void draw() const;
     
     const Game * getGame() const;
+    
+    void mousePressed(const int x, const int y);
+    
+    void mouseReleased(const int x, const int y);
 
 private:
     std::vector<OpenGLView *> m_views;

@@ -54,3 +54,13 @@ const Game * DagganaApp::getGame() const
 {
     return m_game;
 }
+
+void DagganaApp::mousePressed(const int x, const int y)
+{
+    
+}
+
+void DagganaApp::mouseReleased(const int x, const int y)
+{
+    
+}
