@@ -15,3 +15,9 @@
 	#define glClearDepth glClearDepthf
     #define glOrtho glOrthof
 #endif
+
+#ifdef WIN32
+	#include <Windows.h>
+	#include <gl/GL.h>
+	#include <gl/GLU.h>
+#endif
