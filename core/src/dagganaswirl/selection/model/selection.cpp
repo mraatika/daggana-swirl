@@ -6,14 +6,18 @@
  */
 
 #include "selection.h"
-#include "../../common/helper/matrixhelper.cpp"
+#include "../../common/helper/matrixhelper.h"
 #include <math.h>
 #include <stdlib.h>
 #include <time.h>
+#include <iostream>
 
-Selection::Selection(int** selection)
+Selection::Selection(int rowSize)
 {
-	m_container = selection;
+	m_size = rowSize;
+	m_latestCol = 0;
+	m_latestRow = 0;
+	m_container = MatrixHelper::initMatrix(rowSize);
 }
 
 Selection::~Selection()
@@ -23,10 +27,31 @@ Selection::~Selection()
 
 int Selection::getSize()
 {
-	return sizeof m_container[0] / sizeof(int);
+	return m_size * m_size;
 }
 
-int Selection::getPiece(int row, int col)
+int Selection::getRowSize()
+{
+	return m_size;
+}
+
+void Selection::add(int piece)
+{
+	if (m_latestRow >= m_size) {
+		return;
+	}
+
+	m_container[m_latestRow][m_latestCol] = piece;
+
+	if (m_latestCol == m_size -1) {
+		m_latestCol = 0;
+		m_latestRow++;
+	} else {
+		m_latestCol++;
+	}
+}
+
+int Selection::get(int row, int col)
 {
 	return m_container[row][col];
 }
@@ -57,28 +82,28 @@ void Selection::doAction(ActionType action)
 	}
 }
 
-void Selection::turnClockWise()
+void Selection::turnCClockWise()
 {
-	int rowSize = getSize();
+	int rowSize = getRowSize();
 	int** newArray = MatrixHelper::initMatrix(rowSize);
 
 	for (int i = (rowSize - 1); i >= 0; --i) {
 		for (int j = 0; j < rowSize; ++j) {
-			newArray[(rowSize - 1) - j][i] = getPiece(i, j);
+			newArray[(rowSize - 1) - j][i] = get(i, j);
 		}
 	}
 	m_container = newArray;
 }
 
 
-void Selection::turnCClockWise()
+void Selection::turnClockWise()
 {
-	int rowSize = getSize();
+	int rowSize = getRowSize();
 	int** newArray = MatrixHelper::initMatrix(rowSize);
 
 	for (int i = (rowSize - 1); i >= 0; --i) {
 		for (int j = 0; j < rowSize; ++j) {
-			newArray[j][(rowSize - 1)- i] = getPiece(i, j);
+			newArray[j][(rowSize - 1)- i] = get(i, j);
 		}
 	}
 
@@ -87,8 +112,8 @@ void Selection::turnCClockWise()
 
 void Selection::mirrorHorizontally()
 {
-	int rowSize = getSize();
-	int half = (int) floor(rowSize / 2);
+	int rowSize = getRowSize();
+	int half = (int) std::floor((double) rowSize / 2);
 
 	for (int i = 0; i < rowSize; i++) {
 		for (int j = 0; j < half; j++) {
@@ -99,21 +124,21 @@ void Selection::mirrorHorizontally()
 
 void Selection::mirrorVertically()
 {
-	int rowSize = getSize();
-	int half = (int) floor(rowSize / 2);
+	int rowSize = getRowSize();
+	int half = (int) std::floor((double) rowSize / 2);
 
 	for (int i = 0; i < half; i++) {
 		for (int j = 0; j < rowSize; j++) {
 			swap(i, rowSize - (i + 1), j, j);
 		}
-	}
+	}	
 }
 
 void Selection::shuffle()
 {
 	srand(time(NULL));
 
-	int rowSize = getSize();
+	int rowSize = getRowSize();
 
 	for (int i = 0; i < rowSize; i++) {
 		for (int j = 0; j < rowSize; j++) {
@@ -127,7 +152,24 @@ void Selection::shuffle()
 
 void Selection::swap(int startRow, int startCol, int endRow, int endCol)
 {
-	int temp = getPiece(startRow, startCol);
-	m_container[startRow][startCol] = getPiece(endRow, endCol);
+	int temp = get(startRow, startCol);
+	m_container[startRow][startCol] = get(endRow, endCol);
 	m_container[endRow][endCol] = temp;
+}
+
+void Selection::printOut() 
+{
+	int size = getRowSize();
+
+	for (int i = 0; i < size; i++) 
+	{
+		int* row = m_container[i];
+
+		for (int j = 0; j < size; j++) 
+		{
+			std::cout << row[j] << ((row[j] < 10) ? "  " : " ");
+		}
+
+		std::cout << std::endl;
+	}
 }

@@ -11,7 +11,7 @@
 class Selection
 {
 public:
-	Selection(int** selection);
+	Selection(int rowSize);
 	virtual ~Selection();
 
 	enum ActionType
@@ -25,13 +25,33 @@ public:
 	};
 
 	/*
-	 * Returns the size of a row (total size of the selection
-	 * is getSize() * getSize())
+	 *  Returns the size of the whole selection matrix (rowSize * rowSize).
 	 *
-	 * @returns {int} size of a row
+	 *  @return {int} matrix size
 	 */
 	int getSize();
-	int getPiece(int row, int col);
+
+	/**
+	 *  Returns the size of a row.
+	 *
+	 *  @return {int} row size
+	 */
+	int getRowSize();
+	
+	/**
+	 *  Add a piece to the selection
+	 *
+	 *  @param {int} size
+	 */
+	void add(int piece);
+
+	/**
+	 *  Get a piece from the selection
+	 *
+	 *  @param {int} row Row index
+	 *  @param {int} col Column index
+	 */
+	int get(int row, int col);
 
 	/**
 	 * Alters the selection as defined by the action parameter
@@ -41,8 +61,17 @@ public:
 	 */
 	void doAction(ActionType action);
 
+	/**
+	 *  Debug function to print representation of the selection to the console.
+	 *
+	 */
+	void printOut();
+
 private:
 	int** m_container;
+	int m_size;
+	int m_latestRow;
+	int m_latestCol;
 
 	void turnCClockWise();
 	void turnClockWise();
@@ -59,7 +88,6 @@ private:
 	 * @param {int} endCol to which colum
 	 */
 	void swap(int startRow, int startCol, int endRow, int endCol);
-
 };
 
 #endif /* SELECTION_H_ */
