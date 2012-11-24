@@ -17,16 +17,21 @@
 
 #include <vector>
 
+class DagganaApp;
+
 class GameView : public OpenGLView
 {
 public:
-    GameView(int width, int height);
+    GameView(const DagganaApp * app, const int width, const int height);
     ~GameView() {}
     
     //Overriden OpenGLView functions
     void initGL();
     void drawGL();
     void sizeGL(int x, int y, int width, int height);
+    virtual void mousePressed(const int x, const int y);
+    virtual void mouseReleased(const int x, const int y);
+    virtual void mouseMoved(const int x, const int y);
     
 private:
     void updateLayout();

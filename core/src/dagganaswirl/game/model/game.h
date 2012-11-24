@@ -18,11 +18,12 @@ public:
 		LIMITEDMOVES = 21
 	};
 	
-	Game(GameMode mode, Difficulty difficulty, GameBoard::Size boardSize);
+	Game(const DagganaApp * app, GameMode mode, Difficulty difficulty, GameBoard::Size boardSize);
 	virtual ~Game() {}
 	
-	Difficulty getDifficulty();
-	GameBoard & getBoard();
+	Difficulty getDifficulty() const;
+	const GameBoard & getBoard() const;
+    void initialize();
 	
 private:
 	Difficulty m_difficulty;

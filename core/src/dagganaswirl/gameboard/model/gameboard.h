@@ -7,7 +7,7 @@
 
 #pragma once
 
-//#include <string>
+class DagganaApp;
 
 class GameBoard
 {
@@ -18,17 +18,19 @@ public:
 		MEDIUM = 15, 
 		LARGE = 20
 	};
-	
-	GameBoard();
-	GameBoard(Size);
+
+	GameBoard(const DagganaApp * app);
+	GameBoard(const DagganaApp * app, Size);
+    ~GameBoard();
+    
+    void initialize();
 	const Size getSize() const;
 	void setSize(Size size);
 	int getPiece(const int row, const int col) const;
 	void setPiece(int row, int col, int value);
-//	std::string toString();
 
 private:
 	Size m_size;
-	int m_board; 
-	/* Random rnd; */
+	int** m_board;
+	const DagganaApp * m_app;
 };
