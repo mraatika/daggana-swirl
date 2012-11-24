@@ -57,10 +57,10 @@ const Game * DagganaApp::getGame() const
 
 void DagganaApp::mousePressed(const int x, const int y)
 {
-    
+    m_views.back()->mousePressed(x, y);
 }
 
 void DagganaApp::mouseReleased(const int x, const int y)
 {
-    
+    m_views.back()->mouseReleased(x, y);
 }

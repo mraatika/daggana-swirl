@@ -30,6 +30,18 @@ GameBoard::GameBoard(const DagganaApp * app, GameBoard::Size size)
     
 }
 
+GameBoard::~GameBoard()
+{
+	/**
+     *	Remember to delete allocated 2D array.
+     */
+	for (int i = 0; i < m_size; i++)
+	{
+		delete [] m_board[i];
+	}
+    delete [] m_board;
+}
+
 void GameBoard::initialize()
 {
     /* initialize random seed: */

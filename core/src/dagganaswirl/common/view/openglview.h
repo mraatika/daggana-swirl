@@ -36,6 +36,10 @@ public:
         m_initialized = false;
     }
     
+    virtual void mousePressed(const int x, const int y) = 0;
+    
+    virtual void mouseReleased (const int x, const int y) = 0;
+    
     void setApp(const DagganaApp * app) { m_app = app; }
 	
 protected:

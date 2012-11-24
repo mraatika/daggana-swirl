@@ -29,6 +29,8 @@ public:
     void initGL();
     void drawGL();
     void sizeGL(int x, int y, int width, int height);
+    virtual void mousePressed(const int , const int y) {}
+    virtual void mouseReleased(const int , const int y) {}
     
 private:
     void updateLayout();

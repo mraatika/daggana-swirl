@@ -21,6 +21,7 @@ public:
 
 	GameBoard(const DagganaApp * app);
 	GameBoard(const DagganaApp * app, Size);
+    ~GameBoard();
     
     void initialize();
 	const Size getSize() const;

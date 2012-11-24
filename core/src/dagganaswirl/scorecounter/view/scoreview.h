@@ -18,6 +18,8 @@ public:
     ~ScoreView() {}
     void initGL();
     void drawGL();
+    virtual void mousePressed(const int , const int y) {}
+    virtual void mouseReleased(const int , const int y) {}
 };
 
 #endif /* defined(__DagganaSwirl__scoreview__) */
