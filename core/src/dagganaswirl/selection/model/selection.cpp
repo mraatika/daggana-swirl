@@ -22,7 +22,7 @@ Selection::Selection(int rowSize)
 
 Selection::~Selection()
 {
-	// TODO: delete each selection row
+	resetContainer(NULL);
 }
 
 int Selection::getSize()
@@ -92,7 +92,8 @@ void Selection::turnCClockWise()
 			newArray[(rowSize - 1) - j][i] = get(i, j);
 		}
 	}
-	m_container = newArray;
+	
+	resetContainer(newArray);
 }
 
 
@@ -107,7 +108,7 @@ void Selection::turnClockWise()
 		}
 	}
 
-	m_container = newArray;
+	resetContainer(newArray);
 }
 
 void Selection::mirrorHorizontally()
@@ -115,9 +116,12 @@ void Selection::mirrorHorizontally()
 	int rowSize = getRowSize();
 	int half = (int) std::floor((double) rowSize / 2);
 
-	for (int i = 0; i < rowSize; i++) {
-		for (int j = 0; j < half; j++) {
-			swap(i, i, j, rowSize - (j + 1));
+	// iterate all the columns
+	for (int col = 0; col < rowSize; col++) {
+		// iterate half of the rows
+		for (int row = 0; row < half; row++) {
+			// swap item from "top" row to "bottom" and vice versa
+			swap(row, col, rowSize - (row + 1), col);
 		}
 	}
 }
@@ -127,9 +131,12 @@ void Selection::mirrorVertically()
 	int rowSize = getRowSize();
 	int half = (int) std::floor((double) rowSize / 2);
 
-	for (int i = 0; i < half; i++) {
-		for (int j = 0; j < rowSize; j++) {
-			swap(i, rowSize - (i + 1), j, j);
+	// iterate half of the columns
+	for (int col = 0; col < half; col++) {
+		// iterate all the rows
+		for (int row = 0; row < rowSize; row++) {
+			// swap item from the left column to the right column and vice versa
+			swap(row, col, row, rowSize - (col + 1));
 		}
 	}	
 }
@@ -152,9 +159,28 @@ void Selection::shuffle()
 
 void Selection::swap(int startRow, int startCol, int endRow, int endCol)
 {
+	// memorize the end point's value
 	int temp = get(startRow, startCol);
+	// set start point's value to the end point
 	m_container[startRow][startCol] = get(endRow, endCol);
+	// set memorized value to the start point
 	m_container[endRow][endCol] = temp;
+}
+
+void Selection::resetContainer(int** newArray) 
+{
+	int size = getRowSize();
+
+	for (int i = 0; i < size; i++) {
+		for (int j = 0; i < size; i++) {
+			// delete all the columns
+			delete m_container[j];
+		}
+		// delete all the rows
+		delete m_container[i];
+	}
+	// newArray becomes selection's current state
+	m_container = newArray;
 }
 
 void Selection::printOut() 
@@ -172,4 +198,6 @@ void Selection::printOut()
 
 		std::cout << std::endl;
 	}
+
+	std::cout << std::endl;
 }

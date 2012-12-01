@@ -11,9 +11,18 @@
 class Selection
 {
 public:
+	/**
+	 *  @constructor
+	 *  @param {int} rowSize
+	 *
+	 */
 	Selection(int rowSize);
 	virtual ~Selection();
 
+	/**
+	 *  All the possible actions for a selection class.
+	 *
+	 */
 	enum ActionType
 	{
 		CLOCKWISE,
@@ -68,16 +77,45 @@ public:
 	void printOut();
 
 private:
-	int** m_container;
-	int m_size;
-	int m_latestRow;
-	int m_latestCol;
+	// properties
 
+	// container for the items in this selection
+	int** m_container;
+	// selection's item count
+	int m_size;
+	// memorized value of the latest row that 
+	// a value was inserted into.
+	int m_latestRow;
+	// memorized value of the latest column that 
+	// a value was inserted into.
+	int m_latestCol;
+	
+	// actions
+
+	/**
+	 *  Rotates the selection so that the top left 
+	 *  corner becomes the bottom left corner and so on.
+	 */
 	void turnCClockWise();
+	/**
+	 *  Rotates the selection so that the top left 
+	 *  corner becomes top right corner and so on.
+	 */
 	void turnClockWise();
+	/**
+	 *  Mirrors the selection around it's horizontal axel.
+	 */
 	void mirrorHorizontally();
+	/**
+	 *  Mirrors the selection around it's vertical axel.
+	 */
 	void mirrorVertically();
+	/**
+	 *  Shuffles the selections values
+	 */
 	void shuffle();
+
+	// Others
 
 	/**
 	 * Swap the places of two pieces
@@ -88,6 +126,13 @@ private:
 	 * @param {int} endCol to which colum
 	 */
 	void swap(int startRow, int startCol, int endRow, int endCol);
+
+	/**
+	 *  Deletes the current container and replaces it with newContainer
+	 *
+	 *  @param {int**} newContainer
+	 */
+	void resetContainer(int** newContainer);
 };
 
 #endif /* SELECTION_H_ */
