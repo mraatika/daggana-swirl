@@ -171,14 +171,15 @@ void Selection::resetContainer(int** newArray)
 {
 	int size = getRowSize();
 
-	for (int i = 0; i < size; i++) {
-		for (int j = 0; i < size; i++) {
-			// delete all the columns
-			delete m_container[j];
-		}
-		// delete all the rows
-		delete m_container[i];
+	/**
+     *	Remember to delete allocated 2D array.
+     */
+	for (int i = 0; i < m_size; i++)
+	{
+		delete [] m_container[i];
 	}
+    delete [] m_container;
+
 	// newArray becomes selection's current state
 	m_container = newArray;
 }
