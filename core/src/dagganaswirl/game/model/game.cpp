@@ -18,6 +18,8 @@ Game::Game(const DagganaApp * app, GameMode mode, Difficulty difficulty, GameBoa
 	selection->printOut();
 
 	std::cout << std::endl;
+
+	delete selection;
 }
 
 Game::Difficulty Game::getDifficulty() const

@@ -8,6 +8,8 @@
 #include "GameBoard.h"
 #include "../../application/controllers/dagganaapp.h"
 #include "../../game/model/game.h"
+#include "../../common/helper/matrixhelper.h"
+#include "../../selection/model/selection.h"
 
 #include <stdlib.h>
 #include <time.h>
@@ -21,13 +23,7 @@ GameBoard::GameBoard(const DagganaApp * app, GameBoard::Size size)
 {
     m_app = app;
 	m_size = size;
-	m_board = new int *[size];
-    
-    for (int i=0; i < size; i++)
-    {
-        m_board[i] = new int[size];
-    }
-    
+	m_board = MatrixHelper::initMatrix(size);
 }
 
 GameBoard::~GameBoard()
@@ -90,3 +86,45 @@ GameBoard::toString()
 	return ret;
 }
 */
+
+Selection * GameBoard::createSelection(int startRow, int startCol, int endRow, int endCol)
+{
+	int selectionRowSize = endRow - startRow;
+
+	// if selection is not a square
+	if (selectionRowSize != (endCol - startCol)) {
+		// @TODO: throw
+	}
+
+	Selection* selection = new Selection(selectionRowSize);
+	
+	// add all items from the selected area to the selection
+	for (int row = 0; row < selectionRowSize; row++) 
+	{
+		for (int col = 0; col < selectionRowSize; col++) 
+		{
+			selection->add(m_board[row][col]);
+		}
+	}
+
+	return selection;
+}
+
+void GameBoard::mergeSelection(Selection & selection)
+{
+	int size = selection.getRowSize();
+	// point from which we start to change the values
+	// @TODO: where to get these values?
+	int boardRow = 0;
+	int boardCol = 0;
+
+	for (int row = 0; row < size; row++) 
+	{
+		for (int col = 0; col < size; col++) 
+		{
+			m_board[boardRow][boardCol] = selection.get(row, col);
+			boardCol++;
+		}
+		boardRow++;
+	}
+}

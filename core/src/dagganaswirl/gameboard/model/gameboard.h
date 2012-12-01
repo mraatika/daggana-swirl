@@ -8,6 +8,7 @@
 #pragma once
 
 class DagganaApp;
+class Selection;
 
 class GameBoard
 {
@@ -33,4 +34,18 @@ private:
 	Size m_size;
 	int** m_board;
 	const DagganaApp * m_app;
+
+	/**
+	 *  Creates a new selection from a part of the gameboard.
+	 *
+	 */
+	Selection * createSelection(int startRow, int startCol, int endRow, int endCol);
+
+	/**
+	 *  Merges selection back to the gameboard.
+	 *
+	 *  @param {Selection} selection
+	 *
+	 */
+	void mergeSelection(Selection & selection);
 };
