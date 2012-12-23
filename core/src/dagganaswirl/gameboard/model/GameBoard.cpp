@@ -10,9 +10,11 @@
 #include "../../game/model/game.h"
 #include "../../common/helper/matrixhelper.h"
 #include "../../selection/model/selection.h"
+#include "../../common/model/coordinate.h"
 
 #include <stdlib.h>
 #include <time.h>
+#include <iostream>
 
 GameBoard::GameBoard(const DagganaApp * app)
 {
@@ -24,6 +26,8 @@ GameBoard::GameBoard(const DagganaApp * app, GameBoard::Size size)
     m_app = app;
 	m_size = size;
 	m_board = MatrixHelper::initMatrix(size);
+	// @FIXME: hard coded default
+	m_selectionStart = new Coordinate(1, 1);
 }
 
 GameBoard::~GameBoard()
@@ -36,6 +40,7 @@ GameBoard::~GameBoard()
 		delete [] m_board[i];
 	}
     delete [] m_board;
+	delete m_selectionStart;
 }
 
 void GameBoard::initialize()
@@ -70,61 +75,81 @@ int GameBoard::getPiece(const int row, const int col) const
 
 void GameBoard::setPiece(int row, int col, int value)
 {
-	//this->board[row][col] = value;
+	m_board[row][col] = value;
 }
 
-/*
-GameBoard::toString()
+void GameBoard::printOut()
 {
-	std::string ret = "";
-	for (int i = 0; i < this->size; i++) {
-		for (int j = 0; this->size; j++) {
-			ret += board[i][j] + " ";
+	int size = m_size;
+
+	for (int i = 0; i < size; i++) 
+	{
+		int* row = m_board[i];
+
+		for (int j = 0; j < size; j++) 
+		{
+			std::cout << row[j] << ((row[j] < 10) ? "   " : (row[j] < 100) ? "  ": " ");
 		}
-		ret += "\n";
+
+		std::cout << std::endl;
 	}
-	return ret;
+
+	std::cout << std::endl;
 }
-*/
 
-Selection * GameBoard::createSelection(int startRow, int startCol, int endRow, int endCol)
+Selection * GameBoard::createSelection(Coordinate start, Coordinate end)
 {
-	int selectionRowSize = endRow - startRow;
+	int selectionRowSize = end.getY() - start.getY();
 
-	// if selection is not a square
-	if (selectionRowSize != (endCol - startCol)) {
+	// if selection's column is outside bounds
+	if (start.getX() < 0 || end.getX() >= getSize()) 
+	{
 		// @TODO: throw
 	}
 
-	Selection* selection = new Selection(selectionRowSize);
+	// if selection's row is outside bounds
+	if (start.getY() < 0 || end.getY() >= getSize()) 
+	{
+		// @TODO: throw
+	}
+
+	// if selection is not a square
+	if (selectionRowSize != (end.getX() - end.getX())) 
+	{
+		// @TODO: throw
+	}
+
+	Selection* selection = new Selection(selectionRowSize + 1);
+
+	// top left point from which we start to change the values
+	int boardRow = start.getY();
+	int boardCol = start.getX();
 	
 	// add all items from the selected area to the selection
-	for (int row = 0; row < selectionRowSize; row++) 
+	for (int row = 0; row < selectionRowSize + 1; row++) 
 	{
-		for (int col = 0; col < selectionRowSize; col++) 
+		for (int col = 0; col < selectionRowSize + 1; col++) 
 		{
-			selection->add(m_board[row][col]);
+			int piece = m_board[boardRow + row][boardCol + col];
+			selection->add(piece);
 		}
 	}
 
 	return selection;
 }
 
-void GameBoard::mergeSelection(Selection & selection)
+void GameBoard::mergeSelection(Selection * selection, Coordinate start)
 {
-	int size = selection.getRowSize();
-	// point from which we start to change the values
-	// @TODO: where to get these values?
-	int boardRow = 0;
-	int boardCol = 0;
+	int size = selection->getRowSize();
+	// top left point from which we start to change the values
+	int boardRow = start.getY();
+	int boardCol = start.getX();
 
 	for (int row = 0; row < size; row++) 
 	{
 		for (int col = 0; col < size; col++) 
 		{
-			m_board[boardRow][boardCol] = selection.get(row, col);
-			boardCol++;
+			m_board[boardRow + row][boardCol + col] = selection->get(row, col);
 		}
-		boardRow++;
 	}
 }

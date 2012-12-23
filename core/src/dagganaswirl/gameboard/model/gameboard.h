@@ -9,6 +9,7 @@
 
 class DagganaApp;
 class Selection;
+class Coordinate;
 
 class GameBoard
 {
@@ -27,19 +28,25 @@ public:
     void initialize();
 	const Size getSize() const;
 	void setSize(Size size);
-	int getPiece(const int row, const int col) const;
-	void setPiece(int row, int col, int value);
-
-private:
-	Size m_size;
-	int** m_board;
-	const DagganaApp * m_app;
 
 	/**
-	 *  Creates a new selection from a part of the gameboard.
+	 *  Set piece to board.
+	 *
+	 *  @param {int} row
+	 *  @param {int} col
 	 *
 	 */
-	Selection * createSelection(int startRow, int startCol, int endRow, int endCol);
+	int getPiece(const int row, const int col) const;
+	
+	/**
+	 *  Set piece to board.
+	 *
+	 *  @param {int} row
+	 *  @param {int} col
+	 *  @param {int} value
+	 *
+	 */
+	void setPiece(const int row, const int col, const int value);
 
 	/**
 	 *  Merges selection back to the gameboard.
@@ -47,5 +54,30 @@ private:
 	 *  @param {Selection} selection
 	 *
 	 */
-	void mergeSelection(Selection & selection);
+	void mergeSelection(Selection * selection, Coordinate start);
+
+	/**
+	 *  Creates a new selection from a part of the gameboard.
+	 *
+	 */
+	Selection * createSelection(Coordinate start, Coordinate end);
+
+	/**
+	 *  Prints the out the textual representation of the board
+	 *
+	 */
+	void printOut();
+
+private:
+	/**
+     *  The size of the board's one side
+     */
+	Size m_size;
+	int** m_board;
+	const DagganaApp * m_app;
+
+	/**
+	 *  Current selection's starting coordinate 
+	 */
+	Coordinate * m_selectionStart;	
 };
